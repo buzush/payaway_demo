@@ -1,0 +1,12 @@
+{% if user.is_authenticated %}
+	<h2>Types</h2>
+        {% if types %}
+            <ul>
+                {% for type in types %}
+                <li><a href="/bills/type/{{ type.url }}">{{ type.m_name }}</a></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <strong>There are no types present.</strong>
+        {% endif %}
+{% endif %}

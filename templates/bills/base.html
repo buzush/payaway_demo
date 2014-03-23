@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<!-- chapter 9 - working with templates -->
+{% load static %}	<!-- to load "logo.gif" -->
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Bootstrap -->
+        <link href="{% static 'css/bootstrap-fluid-adj.css' %}" rel="stylesheet">
+        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
+        <link href="{% static 'css/bootstrap-responsive.css' %}" rel="stylesheet">
+
+        <title>Bills - {% block title %}PayAway!{% endblock %}</title>
+    </head>
+
+    <body>
+    	<!-- Page specific content goes here -->
+
+        <div class="navbar navbar-inverse navbar-fixed-top">
+           <div class="navbar-inner">
+               <div class="container">
+                   <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                       <span class="icon-bar"></span>
+                       <span class="icon-bar"></span>
+                       <span class="icon-bar"></span>
+                   </button>
+                   <a class="brand" href="/bills/">Bills</a>
+
+                   <div class="nav-collapse collapse">
+                       <ul class="nav pull-right">
+                           {% if user.is_authenticated %}
+                            <li class="navbar-text">Welcome, {{ user.username }}!</li>
+                            <li><a href="/bills/logout/">Logout</a></li>
+                           {% else %}
+                            <li><a href="/bills/register/">Register</a></li>
+                            <li><a href="/bills/login/">Login</a></li>
+                           {% endif %}
+                       </ul>
+                       <ul class="nav">
+                           {% if user.is_authenticated %}
+                            <li><a href="/bills/restricted/">Restricted</a></li>
+                            <li><a href="/bills/addType/">Add Type</a></li>
+                           {% endif %}
+                           <li><a href="/bills/about/">About</a></li>
+                       </ul>
+                   </div>
+                   <!--/.nav-collapse -->
+               </div>
+           </div>
+        </div>
+
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span3">
+                    <div class="well sidebar-nav">
+                        <img src="{% static "logo.gif" %}" alt="pay away logo" /> <!-- chapter 4 - static media, alt= text to display in case of load image error -->
+                        {% include "bills/type_list.html" %}
+
+                        <!--- Empty for the timebeing -->
+                    </div>
+                    <!--/.well -->
+                </div>
+                <!--/span-->
+                <div class="span9">
+                    {% block body_block %}
+                    {% endblock %}
+                </div>
+                <!--/span-->
+            </div>
+            <!--/row-->
+        </div>
+        <!--/.fluid-container-->
+
+        <hr>
+
+        <footer>
+            <div class="container">
+                <p>&copy; PayAway: By CoApp 2014</p>
+            </div>
+        </footer>
+
+        <script src="{% static 'js/jquery-2.1.0.js' %}"></script>
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    </body>
+</html>

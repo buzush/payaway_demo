@@ -1,0 +1,24 @@
+{% extends 'bills/base.html' %} <!-- chapter 9 - templates -->
+
+{% block title %}{{ type_name }}{% endblock %}
+
+{% block body_block %}
+<div class="hero-unit">
+    <h1>{{ type_name }}({{ type.m_numOfBills}})</h1>
+        {% if type %}
+            {% if bills %}
+            <ul>
+                {% for bill in bills %}
+                <li><a href="{{ bill.m_image }}">{{ bill.m_name }}</a></li>
+                {% endfor %}
+            </ul>
+            {% else %}
+                <strong>No bills currently in type.</strong>
+            {% endif %}
+        {% else %}
+            The specified type {{ type_name }} does not exist!
+        {% endif %}
+    </br>
+        <a href="/bills/type/{{ type_name_url }}/addBill/">Add a New Bill</a>
+</div>
+{% endblock %}

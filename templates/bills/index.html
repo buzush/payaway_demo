@@ -1,0 +1,56 @@
+{% extends 'bills/base.html' %} <!-- chapter 9 - templates -->
+
+{% block title %}Welcome{% endblock %}
+
+{% block body_block %}
+<div class="hero-unit">
+    {% if user.is_authenticated %}
+    <h1> Hello, {{ user.username }}!</h1>
+    <form class="form-signin span8" id="user_form" method="post" action="/bills/search/">
+            {% csrf_token %}
+            <!-- Display the search form elements here -->
+            <input type="text" size="50" name="query" value="" id="query" />
+            <input class="btn btn-primary" type="submit" name="submit" value="Search" />
+            <br />
+        </form>
+
+        {% if result_list %}
+        <!-- Display search results in an ordered list -->
+        <div style="clear: both;">
+            <ol>
+            {% for result in result_list %}
+                <li>
+                    <strong><a href="{{ result.link }}">{{ result.title }}</a></strong><br />
+                    <em>{{ result.summary }}</em>
+                </li>
+            {% endfor %}
+            </ol>
+        </div>
+        {% endif %}
+    {% else %}
+    <h1> Hello Guest! </h1>
+    {% endif %}
+    </br></br>
+    <p>Manage your bills the best way with PayAway!</p>
+</div>
+{% if user.is_authenticated %}
+<div class="row-fluid">
+    <div class="span6">
+        <h2>Latest Paid Bills</h2>
+        {% if bills %}
+            <ul>
+                {% for bill in bills %}
+                <li><a href="{{ bill.m_image }}">{{ bill.m_name }}</a></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <ul>
+                <li><strong>There are no bills present.</strong></li>
+            </ul>
+        {% endif %}
+        </br>
+    </div>
+
+</div>
+{% endif %}
+{% endblock %}
